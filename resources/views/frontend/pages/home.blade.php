@@ -1,4 +1,8 @@
+
 @extends('frontend.layout.template') @section('container')
+@php
+    use Illuminate\Support\Str;
+@endphp
 <!-- ============================================== CONTENT ============================================== -->
 <div class="col-xs-12 col-sm-12 col-md-9 homebanner-holder">
     <!-- ============= SECTION – HERO ============ -->
@@ -72,7 +76,7 @@
     <!-- ================== SCROLL TABS ================== -->
     <div id="product-tabs-slider" class="scroll-tabs outer-top-vs wow fadeInUp">
         <div class="more-info-tab clearfix">
-            <h3 class="new-product-title pull-left">New Products</h3>
+            <h3 class="new-product-title pull-left">Available Cars</h3>
             
             <ul class="nav nav-tabs nav-tab-line pull-right" id="new-products-1">
                 
@@ -96,97 +100,84 @@
               <div class="product-slider">
                   <div class="owl-carousel home-owl-carousel custom-carousel owl-theme"> 
 
-                    
-                        <div class="item item-carousel">
-                            <div class="products">
-                                <div class="product">
-                                    <div class="product-image">
-                                        <div class="image">
-                                            <a href="">
-                                                @if( 1 )
-                                                <img src="{{ asset('Backend/img/product/default.png' ) }}" alt="" />
-                                                @else
-                                                <img src="{{ asset('Backend/img/product/default.png') }}" alt="" />
-                                                @endif
-                                            </a>
+                        @foreach( $cars as $car )
+                            <div class="item item-carousel">
+                                <div class="products">
+                                    <div class="product">
+                                        <div class="product-image">
+                                            <div class="image">
+                                                <a href="">
+                                                    @if( 1 )
+                                                    <img src="{{ asset('Backend/img/product/default.png' ) }}" alt="" />
+                                                    @else
+                                                    <img src="{{ asset('Backend/img/product/default.png') }}" alt="" />
+                                                    @endif
+                                                </a>
+                                            </div>
+                                            <!-- /.image -->
+
+                                            <div class="tag sale"><span>OPEN</span></div>
                                         </div>
-                                        <!-- /.image -->
+                                        
 
-                                        @if( 1 )
-                                        <div class="tag sale"><span>Sale</span></div>
-                                        @else 
-                                            @if( 1 )
-                                            <div class="tag new"><span>new</span></div>
-                                            @elseif( 1 )
-                                            <div class="tag hot"><span>Old</span></div>
-                                            @endif 
-                                        @endif
-                                    </div>
-                                    
-
-                                    <div class="product-info text-left">
-                                        <h3 class="name">
-                                            <a href="#">
-                                               title
-                                            </a>
-                                        </h3>
-                                        <div class="rating rateit-small"></div>
-                                        <div class="description"></div>
-                                        <div class="product-price">
-                                            @if( 1 )
-                                                <span class="price"> 
-                                                    ৳ 1 
-                                                </span>
-                                                <span class="price-before-discount">
-                                                    ৳ 1
-                                                </span>
-                                            @else
-                                                <span class="price"> 
-                                                    ৳ 1 
-                                                </span>
-                                            @endif
+                                        <div class="product-info text-left">
+                                            <h3 class="name bold">
+                                               Owner: {{ $car->name }}
+                                            </h3>
+                                            <div class="">Brand: {{ Str::before($car->brand, ' ') }}</div>
+                                            <div class="description">
+                                                <span>Manufacture: {{ $car->year}}</span>
+                                                <h6>Car Type: {{ $car->car_type }}</h6>
+                                            </div>
+                                            <div class="product-price">
+                                              
+                                                    <span class="price"> 
+                                                        ৳{{ $car->daily_rent_price}}
+                                                    </span>
+                                                
+                                            </div>
+                                            <!-- /.product-price -->
                                         </div>
-                                        <!-- /.product-price -->
-                                    </div>
-                                    <!-- /.product-info -->
-                                    <div class="cart clearfix animate-effect">
-                                        <div class="action">
-                                            <ul class="list-unstyled">
-                                                <li class="add-cart-button btn-group">
-                                                    <form action="#" method="POST">
-                                                        @csrf
+                                        <!-- /.product-info -->
+                                        <div class="cart clearfix animate-effect">
+                                            <div class="action">
+                                                <ul class="list-unstyled">
+                                                    <li class="add-cart-button btn-group">
+                                                        <form action="#" method="POST">
+                                                            @csrf
 
-                                                            <input type="hidden" name="product_id" value="# ">
-                                                           
-                                                            <input type="hidden" name="product_quantity" value="1">
+                                                                <input type="hidden" name="product_id" value="# ">
+                                                            
+                                                                <input type="hidden" name="product_quantity" value="1">
 
-                                                            <button class="btn btn-primary icon" type="submit">
-                                                                <i class="fa fa-shopping-cart"></i>
-                                                            </button>
-                                                           
-                                                            <!-- <button class="btn btn-primary cart-btn" type="button">
-                                                                Add to cart
-                                                            </button> -->
-                            
-                                                    </form>
-                                                    
-                                                </li>
-                                                <li class="lnk wishlist">
-                                                    <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a>
-                                                </li>
-                                                <li class="lnk">
-                                                    <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a>
-                                                </li>
-                                            </ul>
+                                                                <button class="btn btn-primary icon" type="submit">
+                                                                    <i class="fa fa-shopping-cart"></i>
+                                                                </button>
+                                                            
+                                                                <!-- <button class="btn btn-primary cart-btn" type="button">
+                                                                    Add to cart
+                                                                </button> -->
+                                
+                                                        </form>
+                                                        
+                                                    </li>
+                                                    <li class="lnk wishlist">
+                                                        <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a>
+                                                    </li>
+                                                    <li class="lnk">
+                                                        <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <!-- /.action -->
                                         </div>
-                                        <!-- /.action -->
+                                        <!-- /.cart -->
                                     </div>
-                                    <!-- /.cart -->
+                                    <!-- /.product -->
                                 </div>
-                                <!-- /.product -->
+                                <!-- /.products -->
                             </div>
-                            <!-- /.products -->
-                        </div>
+                        @endforeach
 
                   </div>
                 </div>
@@ -267,9 +258,98 @@
     
     <!-- =============== FEATURED PRODUCTS =============== -->
     <section class="section wow fadeInUp new-arriavls">
-        <h3 class="section-title">New Arrivals</h3>
+        <h3 class="section-title">ALL Cars Arrivals</h3>
         <div class="owl-carousel home-owl-carousel custom-carousel owl-theme outer-top-xs">
-          gdfgdfgfd
+
+            @foreach( $allCars as $car )
+                <div class="item item-carousel">
+                    <div class="products">
+                        <div class="product">
+                            <div class="product-image">
+                                <div class="image">
+                                    <a href="">
+                                        @if( 1 )
+                                        <img src="{{ asset('Backend/img/product/default.png' ) }}" alt="" />
+                                        @else
+                                        <img src="{{ asset('Backend/img/product/default.png') }}" alt="" />
+                                        @endif
+                                    </a>
+                                </div>
+                                <!-- /.image -->
+
+                                
+                                    @if( $car->availability == '1')
+                                        <div class="tag sale">
+                                            <span>OPEN</span>
+                                        </div>
+                                    @else
+                                        <div class="tag" style="background-color: red;">
+                                            <span>BOOK</span>
+                                        </div>
+                                    @endif
+                            </div>
+                            
+
+                            <div class="product-info text-left">
+                                <h3 class="name bold">
+                                Owner: {{ $car->name }}
+                                </h3>
+                                <div class="">Brand: {{ Str::before($car->brand, ' ') }}</div>
+                                <div class="description">
+                                    <span>Manufacture: {{ $car->year}}</span>
+                                    <h6>Car Type: {{ $car->car_type }}</h6>
+                                </div>
+                                <div class="product-price">
+                                
+                                        <span class="price"> 
+                                            ৳{{ $car->daily_rent_price}}
+                                        </span>
+                                    
+                                </div>
+                                <!-- /.product-price -->
+                            </div>
+                            <!-- /.product-info -->
+                            <div class="cart clearfix animate-effect">
+                                <div class="action">
+                                    <ul class="list-unstyled">
+                                        <li class="add-cart-button btn-group">
+                                            <form action="#" method="POST">
+                                                @csrf
+
+                                                    <input type="hidden" name="product_id" value="# ">
+                                                
+                                                    <input type="hidden" name="product_quantity" value="1">
+
+                                                    <button class="btn btn-primary icon" type="submit">
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                    </button>
+                                                
+                                                    <!-- <button class="btn btn-primary cart-btn" type="button">
+                                                        Add to cart
+                                                    </button> -->
+                    
+                                            </form>
+                                            
+                                        </li>
+                                        <li class="lnk wishlist">
+                                            <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a>
+                                        </li>
+                                        <li class="lnk">
+                                            <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- /.action -->
+                            </div>
+                            <!-- /.cart -->
+                        </div>
+                        <!-- /.product -->
+                    </div>
+                    <!-- /.products -->
+                </div>
+            @endforeach
+
+               
         </div>
     </section>
     <!-- /.section -->
