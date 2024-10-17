@@ -77,7 +77,7 @@
                 <li class="dropdown"> <a href="contact.html">Rentals</a> </li>
                 <li class="dropdown"> <a href="contact.html">Contact</a> </li>
                 @if( Auth::user() )
-                  <li><a href="{{route('home')}}">Dashboard</a></li>
+                  <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
 
                   <li> 
                     <form action="{{ route('logout') }}" method="POST">

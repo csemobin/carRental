@@ -3,61 +3,69 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ConformationMail;
 use App\Models\Car;
 use App\Models\Rental;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class RentalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $datas = Rental::all();
         return view('backend.pages.rental.manage', compact('datas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $user = Auth::user()->id;
+        $email = Auth::user()->email;
         $car_id = $request->input('car_id');
+        
+        // Fetch car details
+        $car = Car::find($car_id);
+        if (!$car) {
+            return redirect()->back()->withErrors(['Car not found']);
+        }
+        
+        $car_name = $car->name;
+        $carEmail = $car->email; // Ensure this field exists, or adjust to the owner's email if related
+
         $start = Carbon::parse($request->input('start_date'));
         $end = Carbon::parse($request->input('end_date'));
 
         // Calculate the difference in days
         $daysDifference = $start->diffInDays($end);
-        $daily_price = $request->input('total_cost');
-        $total_cost = $daily_price*$daysDifference;
+        $total_cost = $request->input('total_cost'); // Use a clearer variable name
+        $paid = $total_cost*$daysDifference;
 
+
+        // Create the rental
         Rental::create([
             'user_id' => $user,      
             'car_id' => $car_id,         
             'start_date' => $start,      
             'end_date' => $end,
-            'total_cost' => $total_cost         
+            'total_cost' => $paid         
         ]);
-        Car::where('id', $car_id)->update(['availability'=>'0']);
-        return redirect()->route('home');
+
+        // Update car availability
+        $car->update(['availability' => '0']);
         
+        // Send emails
+        Mail::to($email)->cc($carEmail)->send(new ConformationMail($car_name, $total_cost, $start, $end));
+        
+        return redirect()->route('home');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $id = Auth::id();
@@ -65,25 +73,16 @@ class RentalController extends Controller
         return view('backend.pages.rental.usermanage', compact('datas'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //
