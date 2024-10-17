@@ -13,7 +13,7 @@
               <!-- /.container-fluid --> 
             </div>
             <!-- /.item -->
-            
+          
             <div class="item">
               <div class="avatar"><img src="{{ asset('frontend\assets\images\testimonials\member3.png') }}" alt="Image"></div>
               <div class="testimonials"><em>"</em>Vtae sodales aliq uam morbi non sem lacus port mollis. Nunc condime tum metus eud molest sed consectetuer.<em>"</em></div>

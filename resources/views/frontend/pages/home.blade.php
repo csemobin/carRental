@@ -299,48 +299,53 @@
                                     <span>Manufacture: {{ $car->year}}</span>
                                     <h6>Car Type: {{ $car->car_type }}</h6>
                                 </div>
-                                <div class="product-price">
-                                
-                                        <span class="price"> 
-                                            ৳{{ $car->daily_rent_price}}
-                                        </span>
+                                <form action="{{ route('rentals.store') }}" method="POST">
+                                    @if( $car->availability == '1')
+                                        <div class="form-group d-flex">
+                                            <input type="date" name="start_date" id="" class="form-control">
+                                            <input type="date" name="end_date" id="" class="form-control">
+                                        </div>
+                                    @endif
+
+                                    <div class="product-price">
                                     
-                                </div>
+                                            <span class="price"> 
+                                                ৳{{ $car->daily_rent_price}}
+                                            </span>
+                                        
+                                    </div>
+                               
                                 <!-- /.product-price -->
                             </div>
-                            <!-- /.product-info -->
-                            <div class="cart clearfix animate-effect">
-                                <div class="action">
-                                    <ul class="list-unstyled">
-                                        <li class="add-cart-button btn-group">
-                                            <form action="#" method="POST">
-                                                @csrf
+                                <!-- /.product-info -->
+                                <div class="cart clearfix animate-effect">
+                                    <div class="action">
+                                        <ul class="list-unstyled">
+                                            <li class="add-cart-button btn-group">
+                                                    @csrf
+                                                    @METHOD("POST")
 
-                                                    <input type="hidden" name="product_id" value="# ">
-                                                
-                                                    <input type="hidden" name="product_quantity" value="1">
+                                                    <input type="hidden" name="car_id" value="{{$car->id}}">
+                                                    <input type="hidden" name="total_cost" value="{{$car->daily_rent_price }}">
 
-                                                    <button class="btn btn-primary icon" type="submit">
-                                                        <i class="fa fa-shopping-cart"></i>
-                                                    </button>
+                                                    @if( $car->availability == '1')
+                                                        <button class="btn btn-primary icon" type="submit">
+                                                            BOOK NOW
+                                                        </button>
+                                                    @else
+                                                        <button class="btn btn-danger icon" type="submit" disabled>
+                                                            BOOKED
+                                                        </button>
+                                                    @endif
+                        
+                                                </form>
                                                 
-                                                    <!-- <button class="btn btn-primary cart-btn" type="button">
-                                                        Add to cart
-                                                    </button> -->
-                    
-                                            </form>
+                                            </li>
                                             
-                                        </li>
-                                        <li class="lnk wishlist">
-                                            <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a>
-                                        </li>
-                                        <li class="lnk">
-                                            <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a>
-                                        </li>
-                                    </ul>
+                                        </ul>
+                                    </div>
+                                    <!-- /.action -->
                                 </div>
-                                <!-- /.action -->
-                            </div>
                             <!-- /.cart -->
                         </div>
                         <!-- /.product -->

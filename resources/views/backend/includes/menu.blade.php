@@ -2,6 +2,7 @@
   <div class="br-logo"><a href=""><span>[</span>bracket <i>plus</i><span>]</span></a></div>
     <div class="br-sideleft sideleft-scrollbar">
       <label class="sidebar-label pd-x-10 mg-t-20 op-3">Navigation</label>
+      <a href="{{route('home')}}" class="br-menu-link active mb-2" >WEB VIEW</a>
       @if( Auth::user()->role === 'admin')
         <ul class="br-sideleft-menu">
           <li class="br-menu-item">

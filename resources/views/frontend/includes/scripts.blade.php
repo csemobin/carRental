@@ -18,27 +18,27 @@
 
 <script type="text/javascript">
 
-    @if( Session::has('massage') )
-        var type = "{{ Session::get('alert-type', 'info') }}"
+    // @if( Session::has('massage') )
+    //     var type = "{{ Session::get('alert-type', 'info') }}"
 
-        switch(type){
-            case 'info':
-                toastr.info(" {{ Session::get('massage') }} ");
-            break;
+    //     switch(type){
+    //         case 'info':
+    //             toastr.info(" {{ Session::get('massage') }} ");
+    //         break;
 
-            case 'success':
-                toastr.success(" {{ Session::get('massage') }} ");
-            break;
+    //         case 'success':
+    //             toastr.success(" {{ Session::get('massage') }} ");
+    //         break;
 
-            case 'warning':
-                toastr.warning(" {{ Session::get('massage') }} ");
-            break;
+    //         case 'warning':
+    //             toastr.warning(" {{ Session::get('massage') }} ");
+    //         break;
 
-            case 'error':
-                toastr.error(" {{ Session::get('massage') }} ");
-            break;
-        }
-    @endif
+    //         case 'error':
+    //             toastr.error(" {{ Session::get('massage') }} ");
+    //         break;
+    //     }
+    // @endif
 
 </script>
 

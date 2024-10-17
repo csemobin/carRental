@@ -76,16 +76,22 @@
                 <li class="dropdown"> <a href="contact.html">About</a> </li>
                 <li class="dropdown"> <a href="contact.html">Rentals</a> </li>
                 <li class="dropdown"> <a href="contact.html">Contact</a> </li>
-                <li class="dropdown  navbar-right special-menu"> 
-                  @if( Auth::user() )
+                @if( Auth::user() )
+                  <li><a href="{{route('home')}}">Dashboard</a></li>
+
+                  <li> 
                     <form action="{{ route('logout') }}" method="POST">
-                      @csrf
-                      <button type="submit">Log Out</button>
+                    @csrf
+                      <button type="submit" class="cus-nav">Log Out</button>
+                      
                     </form> 
-                  @else 
+                  </li>
+                @else 
+                  <li>
                     <a href="{{ route('login') }}">Login</a> 
-                  @endif
-                </li>
+                  </li>
+                @endif
+
               </ul>
               <!-- /.navbar-nav -->
               <div class="clearfix"></div>
