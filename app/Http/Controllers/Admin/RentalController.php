@@ -21,7 +21,7 @@ class RentalController extends Controller
 
     public function create()
     {
-        //
+        
     }
 
     public function store(Request $request)
@@ -37,7 +37,6 @@ class RentalController extends Controller
         }
         
         $car_name = $car->name;
-        $carEmail = $car->email; // Ensure this field exists, or adjust to the owner's email if related
 
         $start = Carbon::parse($request->input('start_date'));
         $end = Carbon::parse($request->input('end_date'));
@@ -46,7 +45,6 @@ class RentalController extends Controller
         $daysDifference = $start->diffInDays($end);
         $total_cost = $request->input('total_cost'); // Use a clearer variable name
         $paid = $total_cost*$daysDifference;
-
 
         // Create the rental
         Rental::create([
@@ -61,21 +59,25 @@ class RentalController extends Controller
         $car->update(['availability' => '0']);
         
         // Send emails
-        Mail::to($email)->cc($carEmail)->send(new ConformationMail($car_name, $total_cost, $start, $end));
+        Mail::to($email)->send(new ConformationMail($car_name, $total_cost, $start, $end));
         
         return redirect()->route('home');
     }
 
     public function show(string $id)
     {
-        $id = Auth::id();
-        $datas = Rental::where('user_id', $id)->get();
-        return view('backend.pages.rental.usermanage', compact('datas'));
+        $datas = Rental::all();
+        $item = Car::where('id', $id)->first();
+        $cars = Car::orderBy('availability', 'desc')->get();
+
+        return view('frontend.pages.details', compact('item', 'datas', 'cars'));
     }
 
     public function edit(string $id)
     {
-        //
+        $id = Auth::id();
+        $datas = Rental::where('user_id', $id)->get();
+        return view('backend.pages.rental.usermanage', compact('datas'));
     }
 
     public function update(Request $request, string $id)

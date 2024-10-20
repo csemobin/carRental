@@ -79,7 +79,7 @@
           <label class="sidebar-label pd-x-10 mg-t-25 mg-b-20 tx-info">Rental History</lab/el>
           
           <li class="br-menu-item">
-            <a href="#" class="br-menu-link with-sub @if( Route::currentRouteNamed('rentals.show') || Route::currentRouteNamed('rentals.show') || Route::currentRouteNamed('rentals.show') ) active @endif " >
+            <a href="#" class="br-menu-link with-sub @if( Route::currentRouteNamed('rentals.edit') || Route::currentRouteNamed('rentals.edit') || Route::currentRouteNamed('rentals.edit') ) active @endif " >
               <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
               <span class="menu-item-label">
                 SEE ALL HISTORY
@@ -87,7 +87,7 @@
             </a><!-- br-menu-link -->
             <ul class="br-menu-sub">
               <li class="sub-item">
-                <a href="{{ route('rentals.show', Auth::user()->id) }}" class="sub-link @if( Route::currentRouteNamed('rentals.show')  ) active @endif">All History</a>
+                <a href="{{ route('rentals.edit', Auth::user()->id) }}" class="sub-link @if( Route::currentRouteNamed('rentals.edit')  ) active @endif">All History</a>
               </li>
             </ul>
           </li>  
